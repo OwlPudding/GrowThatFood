@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Who Eats the Food We Grow?</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Who Eats the Food We Grow?</h1>
+  <h3>A dope subtitle</h3>
+  <b>By: </b><i>Alex Anthony Cortes-Ose, Xabi Peralta, The Ngo</i>
+  <div class="content">
+    some dope content about global food trade yo
+  </div>
+  <div id="main">
+    <div id="top">
+      <span id="year"></span>
+      <input type="range" min="1990" max="2018" value="2005" id="year-slider">
+    </div>
+    <div id="center">
+      <div id="canvas">
+      </div>
+      <div id="panel">
+        <ol>
+          <li>Select a year with the slider above</li>
+          <li>Pick a food from the menu below</li>
+          <li>Select either import or export </li>
+          <li>Click a country or choose from the list of countries below to see its global imports or exports of your chosen food item</li>
+          <li>In the results pane, click “imports” to see that country’s imports or exports of your chosen food item for the selected year</li>
+        </ol>
+      </div>
+    </div>
+    <div id="bottom">
+    </div>
+  </div>
+
+  <!-- JS Imports -->
+  <script src="lib/d3.v5.min.js"></script>
+  <script src="lib/d3-fetch.v2.min.js"></script>
+  <script src="lib/dataframe.min.js"></script>
+
+  <!-- Main JS -->
+  <script src="main.js"></script>
+  <script>
+    var slider = document.getElementById("year-slider");
+    var output = document.getElementById("year");
+    output.innerHTML = slider.value;
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+    };
+  </script>
+</body>
+</html>
