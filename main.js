@@ -396,6 +396,18 @@ function beginInteraction() {
         d3.select(this)
           .style('fill', tinycolor(colorScale(country_gdp)).darken(10).toString());
       }
+      const tgrp = svg.append("g")
+        .attr("id", "tooltip")
+        .attr("transform", (d, i) => `translate(${d3.mouse(this)[0] + 5},${d3.mouse(this)[1]})`);
+      tgrp.append("text")
+        .style("position", "absolute")
+        .attr("text-anchor", "left")
+        .attr("text-align", "center")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "13px")
+        .attr("font-weight", "bold")
+        .attr("fill", "black")
+        .text(codeToCountry[id]);
     });
     map.on('mouseout', function(d) {
       const { id } = d;
@@ -404,6 +416,7 @@ function beginInteraction() {
         d3.select(this)
           .style('fill', colorScale(country_gdp));
       }
+      d3.select("#tooltip").remove();
     });
     map.on('click', function(e) {
       const { id } = e;
