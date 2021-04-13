@@ -105,4 +105,76 @@ svg {
 }
 #panel {
   flex: 1.5;
+  border: 1px solid black;
+  border-left: none;
+}
+#panel-title {
+  font-size: 24px;
+}
+.top10 {
+  margin-top: 2px;
+}
+.top10-item {
+  border-bottom: 1px solid gray;
+  padding: 3px;
+}
+.graph-area {}
+#graph {
+  height: 125px;
+  width: 180px;
+  background-color: lightgray;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.stats {
+  display: flex;
+  justify-content: center;
+}
+.stat {
+  flex: 1;
+  text-align: center;
+}
+.stat h3 {}
+.stat span {}
+
+#bottom {
+  display: flex;
+}
+#food-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 3;
+}
+.food {
+  width: 75px;
+  height: 75px;
+  background-color: lightgray;
+  margin: 5px;
+  padding: 5px;
+  align-items: center;
+  text-align: center;
+}
+.food.selected {
+  background-color: gray;
+}
+.food:hover {
+  cursor: pointer;
+  background-color: gray;
+}
+#country-list {
+  flex: 1.25;
+  height: 400px;
+  overflow: auto;
+  border: 1px solid black;
+  border-top: none;
+}
+.country-item {
+  padding: 5px;
+}
+.country-item.selected {
+  background-color: lightgray;
+}
+.country-item:hover {
+  background-color: lightgray;
+  cursor: pointer;
 }
