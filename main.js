@@ -389,6 +389,19 @@ function beginInteraction() {
         .style('stroke','rgba(0,0,0,0.4)')
         .style('stroke-width', 2);
     }
+      /* Defining legend here */
+    svg.append("g")
+      .attr("class", "legendSequential")
+      .attr("transform", "translate(20, 370)");
+    var legendSequential = d3.legendColor()
+      .shapeWidth(60)
+      .shapePadding(2)
+      .cells(10)
+      .orient("vertical")
+      .title("GDP per Capita")
+      .scale(colorScale);
+    svg.select(".legendSequential")
+      .call(legendSequential);
     map.on('mouseover', function(d) {
       const { id } = d;
       if (gdp[id] != undefined) {
