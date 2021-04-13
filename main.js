@@ -73,7 +73,7 @@ let currentYear = document.getElementById("year-slider").value;
 let selectedFood = null, selectedCountry = null;
 const canvas = document.getElementById("canvas");
 const panel = document.getElementById("panel");
-const panelDefault = panel.innerHTML;
+let panelDefault = panel.innerHTML;
 let countryButtons = function() {
   const countrySelectors = document.querySelectorAll('.country-item');
   for (let i = 0; i < countrySelectors.length; i++) {
@@ -140,10 +140,17 @@ for (let i = 0; i < rad.length; i++) {
     }
   });
 }
-
-// const width = 800,
-const width = window.innerWidth < 1440 ? 750 : 825,
-  height = 600;
+let width;
+if (window.innerWidth < 1440) {
+  width = 750;
+} else if (window.innerWidth > 1500 && window.innerWidth <= 1710) {
+  width = 1000;
+} else if (window.innerWidth > 1710) {
+  width = 1025;
+} else {
+  width = 825;
+}
+const height = 600;
 const svg = d3.select('#canvas')
   .append('svg')
     .attr('width', width)
@@ -193,6 +200,9 @@ function beginInteraction() {
   startSpinner();
   d3.select('.start-button').remove();
   d3.select('.start-text').remove();
+  document.getElementById('start-message').remove();
+  document.getElementById('start-message-subtitle').remove();
+  panelDefault = document.getElementById("panel").innerHTML;
   // setTimeout(function() {
 //
   return Promise.all([
@@ -229,7 +239,7 @@ function beginInteraction() {
     };
     colorMap();
     countryButtons = function() {
-      const countrySelectors = document.querySelectorAll('.country-item');
+      let countrySelectors = document.querySelectorAll('.country-item');
       for (let i = 0; i < countrySelectors.length; i++) {
         if (countrySelectors[i].id === selectedCountry) {
           countrySelectors[i].classList.add('selected');
@@ -243,15 +253,21 @@ function beginInteraction() {
             svg.selectAll('.trade-line').remove();
             panel.innerHTML = panelDefault;
           } else {
-            selectedCountry = this.id;
-            drawLines(selectedCountry);
+            if (selectedFood == null) {
+              selectedCountry = null;
+              document.getElementById('warning').innerHTML = "Please select a food category first!";
+            } else {
+              selectedCountry = this.id;
+              drawLines(selectedCountry);
+            }
           }
           countryButtons();
         }
       }
     }
+    countryButtons();
     foodButtons = function() {
-      const foodSelectors = document.querySelectorAll('.food');
+      let foodSelectors = document.querySelectorAll('.food');
       for (let i = 0; i < foodSelectors.length; i++) {
         if (foodSelectors[i].id === selectedFood) {
           foodSelectors[i].classList.add('selected');
@@ -276,6 +292,7 @@ function beginInteraction() {
         }
       }
     }
+    foodButtons();
     slider.oninput = function() {
       output.innerHTML = this.value;
       currentYear = this.value;
@@ -288,18 +305,21 @@ function beginInteraction() {
       foodButtons();
       countryButtons();
     };
-    // let rad = document.myForm.switchType;
-    // let type = rad.value;
     for (let i = 0; i < rad.length; i++) {
       rad[i].addEventListener('change', function() {
         if (this !== type) {
           type = this.value;
-          selectedCountry = null;
-          countryButtons();
-          selectedFood = null;
-          foodButtons();
+          // if (selectedCountry != null) {
+          //   selectedCountry = null;
+          //   countryButtons();
+          // }
+          // selectedFood = null;
+          // foodButtons();
           svg.selectAll('.trade-line').remove();
-          panel.innerHTML = panelDefault;
+          if (selectedCountry != null) {
+            drawLines(selectedCountry);
+          }
+          // panel.innerHTML = panelDefault;
         }
       });
     }
@@ -307,7 +327,7 @@ function beginInteraction() {
       svg.selectAll('.trade-line').remove();
       let features = [];
       const stats = {
-        "gdp": gdp[id][currentYear],
+        "gdp": parseFloat(gdp[id][currentYear]).toFixed(2),
         "pop": pop[id][currentYear],
         "undernourishment": undernourishment[id][`P${currentYear}`]
       };
@@ -365,15 +385,15 @@ function beginInteraction() {
       console.log(top10);
       console.log(stats);
 
-      const divs = top10.reduce((str, entry) => {
+      const rows = top10.reduce((str, entry) => {
         const splitEntry = entry.split('|');
         str += `
-        <div class="top10-item">
-          <div class="cr-button">Imports</div>
-          <div class="top10-country">${splitEntry[0]}</div>
-          <div class="top10-quantity">${splitEntry[1]}</div>
-          <div class="top10-value">${splitEntry[2]}</div>
-        </div>`;
+        <tr class="top10-item">
+          <td class="top10-country">${splitEntry[0]}</td>
+          <td class="top10-quantity">${splitEntry[1]}</td>
+          <td class="top10-value">${splitEntry[2]}</td>
+          <td><div class="cr-button">See ${type == 'Import' ? 'Exports' : 'Imports'}</div></td>
+        </tr>`;
         return str;
       }, '');
       panel.innerHTML = `
@@ -381,9 +401,11 @@ function beginInteraction() {
         <h2 id="panel-title">${codeToCountry[id]} Statistics</h2>
         <p class="subtitle">No ${selectedFood} ${type} data for ${codeToCountry[id]} in ${currentYear}</p>` :
         `<h2 id="panel-title">${codeToCountry[id]} Top ${top10.length} ${selectedFood} ${type} Partners</h2>`}
-        <div class="top10">
-          ${divs}
-        </div>
+        <table style="width:100%" align="center" class="top10">
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
         ${top10.length == 0 ? `` : `
         <div class="graph-area">
           <div id="graph"></div>
@@ -398,8 +420,12 @@ function beginInteraction() {
             <span>(population)</span>
           </div>
           <div class="stat">
+            ${currentYear < 2000 ? `
+            <p>Undernourishment data not<br/>available in the 1990s</p>
+            ` : `
             <h3>${stats.undernourishment}%</h3>
             <span>of population undernourished</span>
+            `}
           </div>
         </div>
       `;
@@ -473,9 +499,13 @@ function beginInteraction() {
         svg.selectAll('.trade-line').remove();
         panel.innerHTML = panelDefault;
       } else {
-        selectedCountry = id;
-        countryButtons();
-        drawLines(selectedCountry);
+        if (selectedFood == null) {
+          document.getElementById('warning').innerHTML = "Please select a food category first!";
+        } else {
+          selectedCountry = id;
+          countryButtons();
+          drawLines(selectedCountry);
+        }
       }
     });
   });

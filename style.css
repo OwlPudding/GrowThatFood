@@ -188,6 +188,23 @@ svg {
   flex: 1.5;
   border: 1px solid black;
   border-left: none;
+  position: relative;
+}
+#panel #start-message {
+  text-align: center;
+  margin-bottom: 5px;
+}
+#panel #start-message-subtitle {
+  margin-top: 0;
+  text-align: center;
+  font-style: italic;
+}
+#panel #warning {
+  position: absolute;
+  bottom: 20px;
+  right: 15px;
+  color: #ff4646;
+  font-style: italic;
 }
 #panel-title {
   font-size: 22px;
@@ -196,35 +213,43 @@ svg {
   text-align: center;
   font-weight: 500;
 }
-#panel-subtitle {
+#panel .subtitle {
   margin-bottom: 0em;
   margin-top: 0em;
   text-align: center;
+  padding: 0 15px;
+  text-align: center;
 }
 .top10 {
-  margin-top: 2px;
+  font-size: 12px;
+  padding: 0 10px;
 }
-.top10-item {
-  border-bottom: 1px solid gray;
-  padding: 3px;
-  display: flex;
-  justify-content: space-evenly;
-  padding-left: 60px;
+tr.top10-item {
+  display: table-row;
+}
+tr.top10-item td {
+  text-align: center;
 }
 .top10-item .cr-button {
-  position: absolute;
-  padding-left: 10px;
-  padding-right: 10px;
-  border: 1px solid gray;
-  margin-left: -355px;
+  padding: 1px 0;
+  margin: 0 1px;
+  height: fit-content;
+  line-height: 0.95;
+  font-size: 11px;
+  opacity: 0.45;
+  border: 1px solid black;
+}
+.top10-item .cr-button:hover {
+  cursor: pointer;
+  opacity: 1;
 }
 .graph-area {}
 #graph {
-  height: 125px;
+  height: 120px;
   width: 180px;
   background-color: lightgray;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .stats {
   display: flex;
@@ -235,6 +260,7 @@ svg {
   text-align: center;
 }
 .stat h3 {
+  margin-top: 10px;
   margin-bottom: 5px;
   font-size: 24px;
 }

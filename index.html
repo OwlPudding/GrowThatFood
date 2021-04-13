@@ -33,17 +33,20 @@
         <div id="canvas">
         </div>
         <div id="panel">
+          <h3 id="start-message">Click START<br>to load global food trade data!</h3>
+          <p id="start-message-subtitle">Because of the sheer amount of data to load, this may take up to 40 seconds<br><br>--</p>
           <ol>
             <li>Select a year with the slider above</li>
             <br>
-            <li>Pick a food from the menu below</li>
+            <li>Select either import or export</li>
             <br>
-            <li>Select either import or export </li>
+            <li>Pick a food category from the menu below</li>
             <br>
             <li>Click a country or choose from the list of countries below to see its global imports or exports of your chosen food item</li>
             <br>
             <li>In the results pane, click “imports” to see that country’s imports or exports of your chosen food item for the selected year</li>
           </ol>
+          <span id="warning"></span>
         </div>
       </div>
       <div id="bottom">
@@ -288,7 +291,7 @@
   <script src="lib/d3-fetch.v2.min.js"></script>
   <script src="lib/dataframe.min.js"></script>
   <script src="lib/tinycolor.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js" integrity="sha512-wNH6xsp2n8CfB91nrBtfc4sfLwYPBMjSWVUwQOp60AYYXH6i8yCwuKFZ4rgK2i6pQek/b+bSyR7b01/922IBzQ==" crossorigin="anonymous"></script>
+  <script src="lib/d3-legend.min.js"></script>
 
   <!-- Main JS -->
   <script src="main.js"></script>
