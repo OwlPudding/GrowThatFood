@@ -131,7 +131,8 @@ slider.oninput = function() {
   selectedCountry = null;
 };
 
-const width = 800,
+// const width = 800,
+const width = window.innerWidth < 1440 ? 750 : 825,
   height = 600;
 const svg = d3.select('#canvas')
   .append('svg')

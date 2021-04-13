@@ -1,9 +1,51 @@
+/* THEME COLORS
+DARK GREEN: #57A44D
+LIGHTER GREEN: #78BC71
+BEIGE: #EDE6D6
+OFF-WHITE: #F5F5F4
+LIGHTER YELLOW: #FFE85C
+DARKISH YELLOW: #FCD733
+*/
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #F5F5F4;
+  font-family: helvetica, sans-serif;
+}
+#text-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#text-content h1 {
+  color: #57A44D;
+  font-size: 5em;
+  margin-bottom: 25px;
+}
+#text-content h3 {
+  margin-top: 0;
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+#text-content i {
+  font-size: 1.2em;
+}
+#background-wrapper {
+  background-color: #78BC71;
+  margin-top: -15px;
+  position:absolute;
+}
 #main {
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 85%;
   margin: 0 auto;
   display: block;
+  background-color: #FFF;
+  padding: 40px;
+  padding-top: 30px;
+  margin-top: 30px;
 }
 #spinner {
   position: absolute;
@@ -34,10 +76,47 @@
     transform: rotate(360deg);
   }
 }
-#main #top {
+#top {
   width: 100%;
   display: flex;
   align-items: center;
+  margin-bottom: 15px;
+}
+#top .switch-field {
+	display: flex;
+}
+#top .switch-field input {
+	position: absolute !important;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	width: 1px;
+	border: 0;
+	overflow: hidden;
+}
+#top .switch-field label {
+	background-color: #F5F5F4;
+	color: rgba(0, 0, 0, 0.6);
+	font-size: 15px;
+	line-height: 1;
+	text-align: center;
+	padding: 8px 16px;
+	margin-right: -1px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+	transition: all 0.1s ease-in-out;
+}
+#top .switch-field label:hover {
+	cursor: pointer;
+}
+#top .switch-field input:checked + label {
+	background-color: #78BC71;
+	box-shadow: none;
+}
+#top .switch-field label:first-of-type {
+	border-radius: 4px 0 0 4px;
+}
+#top .switch-field label:last-of-type {
+	border-radius: 0 4px 4px 0;
 }
 #year {
   font-size: 40px;
@@ -51,6 +130,8 @@
   background: #d3d3d3;
   outline: none;
   opacity: 0.7;
+  margin-left: 10px;
+  margin-right: 40px;
   -webkit-transition: .2s;
   transition: opacity .2s;
 }
@@ -148,18 +229,18 @@ svg {
 .food {
   width: 75px;
   height: 75px;
-  background-color: lightgray;
+  background-color: #EDE6D6;
   margin: 5px;
   padding: 5px;
   align-items: center;
   text-align: center;
 }
 .food.selected {
-  background-color: gray;
+  background-color: #FCD733;
 }
 .food:hover {
   cursor: pointer;
-  background-color: gray;
+  background-color: #FFE85C;
 }
 #country-list {
   flex: 1.25;
@@ -172,9 +253,9 @@ svg {
   padding: 5px;
 }
 .country-item.selected {
-  background-color: lightgray;
+  background-color: #FCD733;
 }
 .country-item:hover {
-  background-color: lightgray;
+  background-color: #FFE85C;
   cursor: pointer;
 }
