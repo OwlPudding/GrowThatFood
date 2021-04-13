@@ -22,12 +22,12 @@
       <div id="top">
         <span id="year"></span>
         <input type="range" min="1990" max="2018" value="2005" id="year-slider">
-        <div class="switch-field">
-          <input type="radio" id="Export-toggle" name="switch-type" value="Export" checked/>
+        <form class="switch-field" name="myForm">
+          <input type="radio" id="Export-toggle" name="switchType" value="Export" checked/>
           <label for="Export-toggle">Export</label>
-          <input type="radio" id="Import-toggle" name="switch-type" value="Import" />
+          <input type="radio" id="Import-toggle" name="switchType" value="Import" />
           <label for="Import-toggle">Import</label>
-        </div>
+        </form>
       </div>
       <div id="center">
         <div id="canvas">

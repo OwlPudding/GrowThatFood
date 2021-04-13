@@ -131,6 +131,16 @@ slider.oninput = function() {
   selectedCountry = null;
 };
 
+let rad = document.myForm.switchType;
+let type = rad.value;
+for (let i = 0; i < rad.length; i++) {
+  rad[i].addEventListener('change', function() {
+    if (this !== type) {
+      type = this.value;
+    }
+  });
+}
+
 // const width = 800,
 const width = window.innerWidth < 1440 ? 750 : 825,
   height = 600;
@@ -278,6 +288,21 @@ function beginInteraction() {
       foodButtons();
       countryButtons();
     };
+    // let rad = document.myForm.switchType;
+    // let type = rad.value;
+    for (let i = 0; i < rad.length; i++) {
+      rad[i].addEventListener('change', function() {
+        if (this !== type) {
+          type = this.value;
+          selectedCountry = null;
+          countryButtons();
+          selectedFood = null;
+          foodButtons();
+          svg.selectAll('.trade-line').remove();
+          panel.innerHTML = panelDefault;
+        }
+      });
+    }
     const drawLines = function(id) {
       svg.selectAll('.trade-line').remove();
       let features = [];
@@ -289,8 +314,9 @@ function beginInteraction() {
       const { latitude: lat, longitude: long, country } = countryLatLong[id];
       const num = foaToNum[id];
       // run query with code
-      const product = selectedFood, type = 'Export'; // currentYear defined in slider
-      // console.log("PRODUCT",product,"YEAR",currentYear);
+      // currentYear defined in slider
+      // type defined in form
+      const product = selectedFood;
 
       const query = df.where(row => row.get('Reporter Country Code') == num && row.get('Item') == product);
       // console.log(query);
@@ -331,7 +357,7 @@ function beginInteraction() {
                   "lon": longitude
                 }
               });
-              top10.push(`${codeToCountry[alpha3]} ${commafy(quant)} tonnes $${commafy(val)}`);
+              top10.push(`${codeToCountry[alpha3]}|${commafy(quant)} tonnes|$${commafy(val)}`);
             }
           }
         }
@@ -340,14 +366,21 @@ function beginInteraction() {
       console.log(stats);
 
       const divs = top10.reduce((str, entry) => {
-        str += `<div class="top10-item">${entry}</div>`;
+        const splitEntry = entry.split('|');
+        str += `
+        <div class="top10-item">
+          <div class="cr-button">Imports</div>
+          <div class="top10-country">${splitEntry[0]}</div>
+          <div class="top10-quantity">${splitEntry[1]}</div>
+          <div class="top10-value">${splitEntry[2]}</div>
+        </div>`;
         return str;
       }, '');
       panel.innerHTML = `
         ${top10.length == 0 ? `
-        <span id="panel-title">${codeToCountry[id]} Statistics</span>
-        <span class="subtitle">No ${selectedCountry} ${type} data for ${codeToCountry[id]} in ${currentYear}</span>` :
-        `<span id="panel-title">${codeToCountry[id]} Top ${top10.length} ${selectedFood} ${type} Partners</span>`}
+        <h2 id="panel-title">${codeToCountry[id]} Statistics</h2>
+        <p class="subtitle">No ${selectedFood} ${type} data for ${codeToCountry[id]} in ${currentYear}</p>` :
+        `<h2 id="panel-title">${codeToCountry[id]} Top ${top10.length} ${selectedFood} ${type} Partners</h2>`}
         <div class="top10">
           ${divs}
         </div>
@@ -395,7 +428,7 @@ function beginInteraction() {
       .attr("class", "legendSequential")
       .attr("transform", "translate(20, 370)");
     var legendSequential = d3.legendColor()
-      .shapeWidth(60)
+      .shapeWidth(40)
       .shapePadding(2)
       .cells(10)
       .orient("vertical")
