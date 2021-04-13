@@ -297,7 +297,6 @@ function beginInteraction() {
       output.innerHTML = this.value;
       currentYear = this.value;
       selectedCountry = null;
-      selectedFood = null;
       panel.innerHTML = panelDefault;
       svg.selectAll('.trade-line').remove();
 
@@ -322,6 +321,13 @@ function beginInteraction() {
           // panel.innerHTML = panelDefault;
         }
       });
+    }
+    function crossReference(newCountry) {
+      selectedCountry = newCountry;
+      // type = type == 'Export' ? 'Import' : 'Export';
+      countryButtons();
+      document.getElementById(`${type == 'Export' ? 'Import' : 'Export'}-toggle`).click();
+      drawLines(selectedCountry);
     }
     const drawLines = function(id) {
       svg.selectAll('.trade-line').remove();
@@ -357,7 +363,6 @@ function beginInteraction() {
       // console.log(vSorted);
       // console.log('partners');
       // console.log(pSorted);
-    
       let top10 = [];
       for (let i = 0; i < 10; i++) {
         const alpha3 = numToFOA[pSorted[i]];
@@ -377,14 +382,13 @@ function beginInteraction() {
                   "lon": longitude
                 }
               });
-              top10.push(`${codeToCountry[alpha3]}|${commafy(quant)} tonnes|$${commafy(val)}`);
+              top10.push(`${codeToCountry[alpha3]}|${commafy(quant)} tonnes|$${commafy(val)}|${alpha3}`);
             }
           }
         }
       }
       console.log(top10);
       console.log(stats);
-
       const rows = top10.reduce((str, entry) => {
         const splitEntry = entry.split('|');
         str += `
@@ -392,7 +396,7 @@ function beginInteraction() {
           <td class="top10-country">${splitEntry[0]}</td>
           <td class="top10-quantity">${splitEntry[1]}</td>
           <td class="top10-value">${splitEntry[2]}</td>
-          <td><div class="cr-button">See ${type == 'Import' ? 'Exports' : 'Imports'}</div></td>
+          <td><div class="cr-button" id="${splitEntry[3]}">See ${type == 'Import' ? 'Exports' : 'Imports'}</div></td>
         </tr>`;
         return str;
       }, '');
@@ -429,6 +433,11 @@ function beginInteraction() {
           </div>
         </div>
       `;
+      const allCRButtons = document.querySelectorAll('.cr-button');
+      for (let i = 0; i < allCRButtons.length; i++) {
+        const currID = allCRButtons[i].id;
+        allCRButtons[i].onclick = function() { crossReference(currID) };
+      }
       const line = d3.line()
         .x(function(d) {
           return projection([d.lon, d.lat])[0];
