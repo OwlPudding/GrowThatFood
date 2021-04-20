@@ -12,6 +12,7 @@
     <h1>Who Eats the Food We Grow?</h1>
     <h3>Putting Global Food Trade Into Perspective</h3>
     <i><u>By:</u> Alex Anthony Cortes-Ose, Xabi Peralta, The Ngo</i>
+    <a href="#writeup">Read about how we built this visualization!</a>
   </div>
   <br/><br/>
   <!-- <div class="content">
@@ -284,6 +285,23 @@
           <div id="ZWE" class="country-item">Zimbabwe</div>
         </div>
       </div>
+    </div>
+    <div id="writeup">
+      <h2>How We Built This</h2>
+      <span class="header">Introduction </span><i>The problem + motivation</i>
+      <p>We were interested in answering the question “who eats the food we grow?” and exploring where exactly the food that we eat grows. It is common knowledge that a large amount of our food is not grown within our home countries, but knowledge about the path it takes and the countries it travels from is not easily accessible to the public. Several large networks of trade connect each country to many others, especially in terms of food. Thus, our motivation for this exploration is to understand the global journey that food takes to get to our dinner table and put into perspective the well-being of and other information about the countries involved in getting it there.</p>
+      <span class="header">Related Work </span><i>Prior research and work in the subject matter</i>
+      <p>Most of the previous work in tracking export and import data is from the Food and Agriculture Organization of the United Nations. They maintain a food and agricultural trade dataset which includes all transactions of food and agricultural products traded annually since the 1960s by all countries in the world.</p>
+      <span class="header">Methodology </span><i>The data, analysis, techniques and algorithms</i>
+      <p>We gathered our food exports and imports data from the Food and Agriculture Organization of the United Nations(FAO) and our GDP, Population, and Undernourishment data from the World Bank of Data. The food imports and exports data originally contained 5.7 million rows and they were cleaned down to 970,000 through a SQL + python Pandas pipeline. This involved aggregating foods into more general categories, removing duplicate or null entries, and maintaining a smaller and more consistent country list. The GDP, Population, and Undernourishment data was significantly smaller but we still needed to remove predefined country groupings which we could not show on the map and had to change naming conventions to match the import export data. The food import and export data is loaded and queried with dataframe-js which closely mimics the behavior of a system like Pandas, and the World Bank data sets were preprocessed and saved as json objects with JavaScript’s Object.reduce() method.</p>
+      <span class="header">Design </span><i>Visual and interaction encodings + abandoned iterations</i>
+      <p>Through the course of our design process, we went through multiple iterations of potential designs for our visualization. We wanted to choose encodings that encourage exploration and allow people to reach their own conclusions about interesting questions they had. For one of our first potential designs, we thought about using a supermarket layout that would allow people to pick out specific items and find out various information about their groceries. We decided to move away from this because of the lack of accurate data on food waste and the immense formatting tasks we would have to undertake to get it working. We then shifted our focus to utilizing a map, encoding food exports and imports as lines similar to flight paths on a travel map, and a dashboard set up with conditional buttons and panels displaying important information. We also added a “cross-reference” button to allow users to explore other import or export partners for a given food + country pair.</p>
+      <span class="header">Implementation </span><i>Libraries, tools, platforms, performance, and loading data</i>
+      <p>d3.js was used to create the map visualization. We ran into many data loading issues and because of large file sizes put the import and export data on a paid GitHub LFS plan. Performance issues presented themselves primarily in terms of how large our original dataset was - we improved loading time by cleaning the data and removing entries we did not need as previously discussed.</p>
+      <span class="header">Discussion </span><i>Design success, reactions, critiques, and insights</i>
+      <p>Our visualization was successful in fulfilling our main goal of encouraging exploration. In our showcase, no points of user confusion were brought up and we gained insights when presenting. Some of our users noted how it was interesting to learn about coffee exports in Barbados and how their top exports of coffee were mostly to other countries within the Caribbean region. The imports and exports cross-reference button also led users down rabbit holes tracing trade and comparing GDP and undernourishment data all across the world.</p>
+      <span class="header">Future Work </span><i>How we intend to improve this work</i>
+      <p>In terms of future work, we would like to improve the web application’s loading time. As of now, we are limited by our very large dataset (120+ MB). We believe that there is a lot more data removal and compression we can do to further decrease the size of the dataset, and we would love to implement some form of DBMS. We would also like to improve some visual aspects with a more modern design language.</p>
     </div>
   </div>
   <!-- JS Imports -->

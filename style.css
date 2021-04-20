@@ -31,6 +31,11 @@ body {
 #text-content i {
   font-size: 1.2em;
 }
+#text-content a {
+  text-decoration: underline;
+  color: blue;
+  margin-top: 20px;
+}
 #background-wrapper {
   background-color: #78BC71;
   margin-top: -15px;
@@ -310,4 +315,20 @@ tr.top10-item td {
 .country-item:hover {
   background-color: #FFE85C;
   cursor: pointer;
+}
+#writeup {
+  padding: 7.5% 20%;
+  background-color: white;
+  margin-top: 50px;
+}
+#writeup h2 {
+  font-size: 2em;
+}
+#writeup .header {
+  font-size: 1.25em;
+  font-weight: bold;
+  color: darkolivegreen;
+}
+#writeup p {
+  line-height: 1.75;
 }
